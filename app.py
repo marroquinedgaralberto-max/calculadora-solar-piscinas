@@ -100,13 +100,30 @@ mariposa = sistema(4.8,0.7,precio_mariposa)
 
 df = pd.DataFrame({
     "Sistema":["Placa","Heat Pipe","Polipropileno","Mariposa"],
+
+    "Colectores":[
+        round(placa[0],1),
+        round(heat[0],1),
+        round(pp[0],1),
+        round(mariposa[0],1)
+    ],
+
     "Inversión":[placa[1],heat[1],pp[1],mariposa[1]],
     "Venta":[placa[2],heat[2],pp[2],mariposa[2]],
+
     "ROI eléctrico":[placa[4],heat[4],pp[4],mariposa[4]],
     "ROI gas":[placa[5],heat[5],pp[5],mariposa[5]],
+
     "TIR %":[placa[6]*100,heat[6]*100,pp[6]*100,mariposa[6]*100],
+
     "CO2":[placa[7],heat[7],pp[7],mariposa[7]]
 }).sort_values("ROI eléctrico")
+
+st.markdown("## 📦 Dimensionamiento del sistema")
+
+for i in df.index:
+    fila = df.loc[i]
+    st.write(f"🔹 {fila['Sistema']}: {fila['Colectores']} colectores")
 
 # ---------------- KPIs ----------------
 st.markdown("## 📊 Indicadores clave")
@@ -157,6 +174,14 @@ def generar_pdf():
 
     content.append(Paragraph(f"Sistema recomendado: {mejor['Sistema']}", styles["Heading2"]))
 
+    content.append(Paragraph("Cantidad de colectores:", styles["Heading2"]))
+
+for i in df.index:
+    fila = df.loc[i]
+    content.append(Paragraph(
+        f"{fila['Sistema']}: {fila['Colectores']} unidades",
+        styles["Normal"]
+    ))
     tabla = [["Sistema","Inversión","ROI"]]
 
     for i in df.index:

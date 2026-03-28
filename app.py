@@ -105,7 +105,7 @@ df = pd.DataFrame({
     "ROI eléctrico":[placa[4],heat[4],pp[4],mariposa[4]],
     "ROI gas":[placa[5],heat[5],pp[5],mariposa[5]],
     "TIR %":[placa[6]*100,heat[6]*100,pp[6]*100,mariposa[6]*100],
-    "CO2":[placa[7],heat[7],pp[7],mariposa[7]}
+    "CO2":[placa[7],heat[7],pp[7],mariposa[7]]
 }).sort_values("ROI eléctrico")
 
 # ---------------- KPIs ----------------

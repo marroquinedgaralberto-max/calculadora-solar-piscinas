@@ -102,7 +102,7 @@ def sistema(area_c, eff, precio):
 
 placa = sistema(1.8, 0.5, precio_placa)
 
-heat = sistema(2.4, 0.65, precio_heat)
+heat = sistema(4.579, 0.65, precio_heat)
 
 pp = sistema(3.8, 0.8, precio_pp)
 

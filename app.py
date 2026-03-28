@@ -73,30 +73,40 @@ energia_total = (vol * 1000 * delta) / 860
 energia_dia = (energia_total / dias) * factor
 
 def sistema(area_c, eff, precio):
-    prod = rad * area_c * eff
-    n = energia_dia / prod
+
+    factor_real = 0.7  # pérdidas reales del sistema
+
+    produccion = rad * area_c * eff * factor_real
+
+    n = energia_dia / produccion
+
     inv = n * precio
 
     ahorro_kwh = energia_dia * 365 * costo_kwh
     ahorro_gas = energia_dia * 365 * 0.1 * costo_gas
 
     flujo = [-inv] + [ahorro_kwh]*10
+
     tir = npf.irr(flujo)
     if tir is None or np.isnan(tir):
         tir = 0
 
     roi_elec = inv / ahorro_kwh
     roi_gas = inv / ahorro_gas
+
     co2 = energia_dia * 365 * 0.2
 
     venta = inv * (1 + margen/100)
 
     return n, inv, venta, ahorro_kwh, roi_elec, roi_gas, tir, co2
 
-placa = sistema(2,0.5,precio_placa)
-heat = sistema(3,0.65,precio_heat)
-pp = sistema(3.7,0.75,precio_pp)
-mariposa = sistema(4.8,0.7,precio_mariposa)
+placa = sistema(1.8, 0.5, precio_placa)
+
+heat = sistema(2.4, 0.65, precio_heat)
+
+pp = sistema(3.8, 0.8, precio_pp)
+
+mariposa = sistema(6.8, 0.7, precio_mariposa)
 
 df = pd.DataFrame({
     "Sistema":["Placa","Heat Pipe","Polipropileno","Mariposa"],

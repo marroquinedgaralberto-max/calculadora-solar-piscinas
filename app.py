@@ -57,20 +57,21 @@ precio_heat = st.sidebar.number_input("Heat pipe", value=2200000.0)
 precio_pp = st.sidebar.number_input("Polipropileno", value=600000.0)
 precio_mariposa = st.sidebar.number_input("Mariposa", value=2500000.0)
 
-# ---------------- FACTORES ----------------
-factor = 1
-if tipo == "Exterior":
-    factor *= 1.3
-if manta == "Sí":
-    factor *= 0.6
+# ---------------- NUEVO MODELO REAL ----------------
 
+if tipo == "Exterior" and manta == "No":
+    factor_termico = 1.2
+elif tipo == "Exterior" and manta == "Sí":
+    factor_termico = 0.7
+else:
+    factor_termico = 0.5
+
+energia_dia = area * delta * factor_termico
 # ---------------- CALCULOS ----------------
 rad = ciudades[ciudad]["rad"]
 vol = area * prof
 delta = temp_fin - temp_ini
 
-energia_total = (vol * 1000 * delta) / 860
-energia_dia = (energia_total / dias) * factor
 
 def sistema(area_c, eff, precio):
 

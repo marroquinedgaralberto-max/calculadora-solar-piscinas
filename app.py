@@ -161,6 +161,7 @@ st.success(f"🔥 Sistema recomendado: {mejor['Sistema']}")
 
 # ---------------- PDF ----------------
 def generar_pdf():
+
     doc = SimpleDocTemplate("propuesta.pdf")
     styles = getSampleStyleSheet()
     content = []
@@ -173,34 +174,14 @@ def generar_pdf():
     content.append(Spacer(1,10))
 
     content.append(Paragraph(f"Sistema recomendado: {mejor['Sistema']}", styles["Heading2"]))
-
-    content.append(Paragraph("Cantidad de colectores:", styles["Heading2"]))
-
-for i in df.index:
-    fila = df.loc[i]
-    content.append(Paragraph(
-        f"{fila['Sistema']}: {fila['Colectores']} unidades",
-        styles["Normal"]
-    ))
-    tabla = [["Sistema","Inversión","ROI"]]
-
-    for i in df.index:
-        fila = df.loc[i]
-        tabla.append([
-            fila["Sistema"],
-            f"${round(fila['Inversión'],0):,.0f}",
-            f"{round(fila['ROI eléctrico'],2)}"
-        ])
-
-    t = Table(tabla)
-    t.setStyle(TableStyle([("GRID",(0,0),(-1,-1),1,colors.black)]))
-
-    content.append(t)
+    content.append(Spacer(1,10))
 
     doc.build(content)
-    return "propuesta.pdf"
+
+    return "propuesta.pdf"   # ✅ AQUÍ SÍ
 
 if st.button("📄 Generar PDF"):
     archivo = generar_pdf()
+
     with open(archivo, "rb") as f:
-        st.download_button("Descargar", f, file_name=archivo)
+        st.download_button("⬇️ Descargar PDF", f, file_name=archivo)
